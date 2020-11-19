@@ -23,12 +23,15 @@ const (
 	DefaultGrpcPort = 9111
 	// DefaultHTTPPort - Default value for HTTP port
 	DefaultHTTPPort = 9191
+	// DefaultAdditionalVppConf - Default value for additional VPP configuration
+	DefaultAdditionalVppConf = ""
 )
 
 type option struct {
-	rootDir  string
-	grpcPort int
-	httpPort int
+	rootDir           string
+	grpcPort          int
+	httpPort          int
+	additionalVPPConf string
 }
 
 // Option - Option for use with vppagent.Start(...)
@@ -52,5 +55,12 @@ func WithGrpcPort(grpcPort int) Option {
 func WithHTTPPort(httpPort int) Option {
 	return func(opt *option) {
 		opt.httpPort = httpPort
+	}
+}
+
+// WithAdditionalVPPConf - append an additional configuration to vpp.conf
+func WithAdditionalVPPConf(additionalVPPConf string) Option {
+	return func(opt *option) {
+		opt.additionalVPPConf = additionalVPPConf
 	}
 }

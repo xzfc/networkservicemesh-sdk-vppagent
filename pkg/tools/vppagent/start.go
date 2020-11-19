@@ -41,9 +41,10 @@ func StartAndDialContext(ctx context.Context, opts ...Option) (vppagentCC grpc.C
 	errCh = make(chan error, 5)
 
 	o := &option{
-		rootDir:  DefaultRootDir,
-		grpcPort: DefaultGrpcPort,
-		httpPort: DefaultHTTPPort,
+		rootDir:           DefaultRootDir,
+		grpcPort:          DefaultGrpcPort,
+		httpPort:          DefaultHTTPPort,
+		additionalVPPConf: DefaultAdditionalVppConf,
 	}
 	for _, opt := range opts {
 		opt(o)
@@ -110,7 +111,7 @@ func StartAndDialContext(ctx context.Context, opts ...Option) (vppagentCC grpc.C
 
 func writeDefaultConfigFiles(ctx context.Context, o *option) error {
 	configFiles := map[string]string{
-		vppConfFilename:           fmt.Sprintf(vppConfContents, o.rootDir),
+		vppConfFilename:           fmt.Sprintf(vppConfContents, o.rootDir, o.additionalVPPConf),
 		vppAgentGoVPPConfFilename: fmt.Sprintf(vppAgentGoVPPConfContents, o.rootDir),
 		vppAgentGrpcConfFilename:  fmt.Sprintf(vppAgentGrpcConfContents, o.grpcPort),
 		vppAgentHTTPConfFilename:  fmt.Sprintf(vppAgentHTTPConfContents, o.httpPort),

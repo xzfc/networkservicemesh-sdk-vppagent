@@ -178,5 +178,12 @@ cpu {
 plugins {
 	plugin dpdk_plugin.so { disable }
 }
+
+buffers {
+	buffers-per-numa 65535
+}
+
+# User-provided changes below this line
+%[2]s
 `
 )
